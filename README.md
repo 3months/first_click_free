@@ -28,6 +28,25 @@ Use
 	```
 4. Good to go!
 
+#### Registered Users
+
+If you have registered users that should always be allowed through (they shouldn't be affected by any first click free rules), then you can override the `user_for_first_click_free` method in `ApplicationController`, or any of your controllers using `allow_first_click_free`. This method should return either a falsy value if no-one is signed in, or the current user.
+
+Example:
+
+``` ruby
+  class ApplicationController
+    # …snip
+  
+    protected
+  
+    def user_for_first_click_free
+      current_member
+    end
+  end
+```
+
+
 
 How it works
 ---
