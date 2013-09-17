@@ -27,12 +27,12 @@ module FirstClickFree
       # Returns true if the hostname ends with googlebot.com and the
       # forward DNS lookup IP address matches the request's remote IP address.
       def verify_googlebot_domain
-        hostname = Resolve.getname(request.remote_ip)
+        hostname = Resolv.getname(request.remote_ip)
         # Structure of lookup return is:
         # ["AF_INET", 80, "66.249.66.1", "66.249.66.1", 2, 2, 17]
-        ip       = Socket.getaddrinfo(hostname, "http").first[3]
+        ip       = Socket.getaddrinfo(hostname, "http").first[2]
 
-        hostname =~ /\.googlebot.com\Z/ && ip == request.remote_ip
+        hostname =~ /.googlebot.com\Z/ && ip == request.remote_ip
       end
 
     end
