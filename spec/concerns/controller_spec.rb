@@ -1,4 +1,5 @@
 require "spec_helper"
+require "ostruct"
 
 describe FirstClickFree::Concerns::Controller, type: :controller do
   context "standard controller" do

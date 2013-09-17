@@ -1,4 +1,5 @@
 require "spec_helper"
+require "ostruct"
 
 describe FirstClickFree::Helpers::Google, type: :helper do
 
