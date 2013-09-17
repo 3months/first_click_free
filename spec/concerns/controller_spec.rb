@@ -3,7 +3,6 @@ require "spec_helper"
 describe FirstClickFree::Concerns::Controller, type: :controller do
   context "standard controller" do
     controller do
-      include FirstClickFree::Concerns::Controller
       allow_first_click_free
 
       def index
@@ -31,7 +30,6 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
 
   context "controller skipping an action" do
     controller do
-      include FirstClickFree::Concerns::Controller
       allow_first_click_free except: :index
 
       def index
@@ -46,7 +44,6 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
 
   context "entire controller skipped" do
     controller do
-      include FirstClickFree::Concerns::Controller
 
       # Normally this would be done in ApplicationController or similar
       allow_first_click_free
