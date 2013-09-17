@@ -1,6 +1,8 @@
 First Click Free
 ===
 
+[![Build Status](https://magnum.travis-ci.com/3months/first_click_free.png?token=FA4EnSunh4Af329WCePs&branch=master)](https://magnum.travis-ci.com/3months/first_click_free)
+
 [First Click Free](https://support.google.com/webmasters/answer/74536?hl=en) is one of three methods recommended officially by Google for improving search rankings for subscription, paywall and other restricted access sites.
 
 The technique involves making available the first 'click', or pageview for each user, and giving Google's crawling bots full access to index site content. This way, users coming from social media sites and search results are able to 'preview' the content they have been looking for, and search engines are able to fully index a site, even though it would normally require registration and/or payment.
@@ -37,9 +39,9 @@ Example:
 ``` ruby
   class ApplicationController
     # …snip
-  
+
     protected
-  
+
     def user_for_first_click_free
       current_member
     end
@@ -66,9 +68,9 @@ How it works
 Contributing
 ---
 
-* Contributions are welcome! 
+* Contributions are welcome!
 * Please fork this repository, and run `bundle install` to install the development dependencies (RSpec and SQLite).
-* Create a new git branch to contain your changes. Try and limit commits to this branch to the specific changes you want to be merged in. 
+* Create a new git branch to contain your changes. Try and limit commits to this branch to the specific changes you want to be merged in.
 * Push up your branch to Github, and create a pull request. Please don't change the gem version or anything, I can do that bit.
 * All pull requests will be reviewed ASAP. If it's not ready for merge, I'll help you to get it to a stage where it is!
 
