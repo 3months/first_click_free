@@ -32,35 +32,33 @@ module FirstClickFree
         #
         # Returns the result of the call to `skip_before_filter`.
         def skip_first_click_free(options = {})
-          skip_before_filter :record_or_reject_first_click_free, options
+          skip_before_filter :record_or_reject_first_click_free!, options
         end
 
       end
 
-      module InstanceMethods
 
-        # Public: Either record a first click free request, or reject
-        # the request for a subsequent content access.
-        #
-        # Raises FirstClickFree::Exceptions::SubsequentAccessException if
-        # a first click has already been recorded for this user.
-        #
-        # Returns true if the referrer User agent is GoogleBot, or
-        # if this is the first click recorded for this session.
-        def record_or_reject_first_click_free!
-          # Always allow requests from Googlebot
-          return true if googlebot?
+      # Public: Either record a first click free request, or reject
+      # the request for a subsequent content access.
+      #
+      # Raises FirstClickFree::Exceptions::SubsequentAccessException if
+      # a first click has already been recorded for this user.
+      #
+      # Returns true if the referrer User agent is GoogleBot, or
+      # if this is the first click recorded for this session.
+      def record_or_reject_first_click_free!
+        # Always allow requests from Googlebot
+        return true if googlebot?
 
-          # Has this session already visited?
-          if session[:first_click]
-            raise FirstClickFree::Exceptions::SubsequentAccessException
-          else
-            session[:first_click]
-            return true
-          end
+        # Has this session already visited?
+        if session[:first_click]
+          raise FirstClickFree::Exceptions::SubsequentAccessException
+        else
+          session[:first_click] = Time.zone.now
+          return true
         end
-
       end
+
     end
   end
 end
