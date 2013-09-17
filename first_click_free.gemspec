@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Automatically allow Google-crawling and new visitors to your application
                    access to content without requiring sign-in."
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", ">= 3.1"
