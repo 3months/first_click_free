@@ -37,6 +37,17 @@ module FirstClickFree
 
       end
 
+      # Public: Return the user to use when bypassing first click free
+      # (i.e. there is a user signed in at the time).
+      #
+      # This method is intended to be overridden in the controller
+      # with the appropriate method call (e.g. current_user).
+      #
+      # Returns nil, which will cause first click free to always be active.
+      def user_for_first_click_free
+        nil
+      end
+
 
       # Public: Either record a first click free request, or reject
       # the request for a subsequent content access.
@@ -49,6 +60,7 @@ module FirstClickFree
       def record_or_reject_first_click_free!
         # Always allow requests from Googlebot
         return true if googlebot?
+        return true if user_for_first_click_free
 
         # Has this session already visited?
         if session[:first_click]

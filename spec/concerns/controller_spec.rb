@@ -27,6 +27,12 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
       it { session[:first_click].should be_nil }
       it { response.should be_success }
     end
+
+    context "registered user vist" do
+      before { controller.stub(:user_for_first_click_free => true) }
+      it { session[:first_click].should be_nil }
+      it { response.should be_success }
+    end
   end
 
   context "controller skipping an action" do
