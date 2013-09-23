@@ -1,7 +1,15 @@
 require "spec_helper"
 require "ostruct"
 
+Rails.application.routes.draw do
+  match "/first-click-free" => "anonymous#index", :as => "first_click_free", :via => "get"
+end
+
+
 describe FirstClickFree::Concerns::Controller, type: :controller do
+
+  let(:current_url) { "http://test.host/first-click-free" }
+
   context "standard controller" do
     controller do
       allow_first_click_free
@@ -11,14 +19,20 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
       end
     end
 
+
     context "first visit" do
-      before { get :index }
-      it { session[:first_click].should_not be_nil }
+      before { get :index, test: true }
+      it { session[:first_click].should eq current_url }
       it { response.should be_success }
     end
 
-    context "subsequent visit" do
-      before { session[:first_click] = Time.zone.now }
+    context "subsequent visit to same page" do
+      before { session[:first_click] = current_url }
+      it { expect { get :index }.to_not raise_error FirstClickFree::Exceptions::SubsequentAccessException }
+    end
+
+    context "subsequent visit to different page" do
+      before { session[:first_click] = "http://test.host/another-page" }
       it { expect { get :index }.to raise_error FirstClickFree::Exceptions::SubsequentAccessException }
     end
 

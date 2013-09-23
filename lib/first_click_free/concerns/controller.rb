@@ -70,10 +70,12 @@ module FirstClickFree
         reset_first_click_free! if permitted_domain?
 
         # Has this session already visited?
-        if session[:first_click]
+        if session[:first_click] && session[:first_click] == url_for
+          return true
+        elsif session[:first_click]
           raise FirstClickFree::Exceptions::SubsequentAccessException
         else
-          session[:first_click] = Time.zone.now
+          session[:first_click] = url_for
           return true
         end
       end
