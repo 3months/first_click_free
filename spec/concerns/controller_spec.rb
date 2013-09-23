@@ -28,7 +28,7 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
 
     context "subsequent visit to same page" do
       before { session[:first_click] = current_url }
-      it { expect { get :index }.to_not raise_error FirstClickFree::Exceptions::SubsequentAccessException }
+      it { expect { get :index }.not_to raise_error }
     end
 
     context "subsequent visit to different page" do
