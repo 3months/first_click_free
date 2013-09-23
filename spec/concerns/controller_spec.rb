@@ -23,14 +23,19 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
     end
 
     context "googlebot visit" do
-      before { controller.stub(:googlebot? => true) }
+      before { controller.stub(:googlebot? => true); get :index }
       it { session[:first_click].should be_nil }
       it { response.should be_success }
     end
 
     context "registered user vist" do
-      before { controller.stub(:user_for_first_click_free => true) }
+      before { controller.stub(:user_for_first_click_free => true); get :index }
       it { session[:first_click].should be_nil }
+      it { response.should be_success }
+    end
+
+    context "google referrer visit" do
+      before { get :index; controller.stub(permitted_domain?: true); get :index }
       it { response.should be_success }
     end
   end
