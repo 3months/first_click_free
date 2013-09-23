@@ -15,5 +15,10 @@ describe FirstClickFree::Helpers::Referrer, type: :helper do
       before { helper.stub(request: OpenStruct.new(referrer: "https://test.host/not/google")) }
       it { should be_false }
     end
+
+    context "no referrer" do
+      before { helper.stub(request: OpenStruct.new(referrer: nil)) }
+      it { should be_false }
+    end
   end
 end
