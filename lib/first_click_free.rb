@@ -5,6 +5,9 @@ module FirstClickFree
   require 'first_click_free/concerns/controller'
 
   class << self
+
+    require 'yaml'
+
     def root
       File.expand_path(File.join(File.dirname(__FILE__), '..'))
     end

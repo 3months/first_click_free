@@ -2,6 +2,8 @@ module FirstClickFree
   module Helpers
     module Referrer
 
+      require 'uri'
+
       # Public: Determine if the request referrer is allowed to bypass
       # first click free.
       #
