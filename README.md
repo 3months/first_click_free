@@ -56,7 +56,14 @@ How it works
 ##### For visitors
 
 * When a user first lands in a controller marked as being first click free, a session variable is set.
-* If that same user attempts to access any other controller, or the same controller, marked as first click free, an exception is raised so that the application can redirect or display a message to that user.
+* If that same user attempts to access any other URL marked as first click free, an exception is raised so that the application can redirect or display a message to that user.
+
+##### For visitors coming from a Google, Bing, or Yahoo search
+
+* When a user's HTTP referrer matches a list of known search engine domains, the request is allowed to override any previously set first click free. 
+* It does not disable first click free, it just modifies which page that user may access.
+* For example, if a user searches for a page on your site using Google, and clicks on the first result, that page will be marked as first click free for them - any subsequent clicks from that page will trigger the first click free error. If they go back to the search results though, and then click on the second result, that page will take the place of the first and they will be able to access that page as normal.
+
 
 ##### For Google's indexing services
 
