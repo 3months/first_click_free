@@ -5,6 +5,7 @@ module FirstClickFree
     module Controller
       extend ActiveSupport::Concern
       include FirstClickFree::Helpers::Google
+      include FirstClickFree::Helpers::Referrer
 
       module ClassMethods
 
@@ -60,15 +61,32 @@ module FirstClickFree
       def record_or_reject_first_click_free!
         # Always allow requests from Googlebot
         return true if googlebot?
+
+        # Always allow requests from authenticated users
         return true if user_for_first_click_free
 
+        # Reset first click free if the domain is permitted
+        # (new first click free will be set)
+        reset_first_click_free! if permitted_domain?
+
         # Has this session already visited?
-        if session[:first_click]
+        if session[:first_click] && session[:first_click] == url_for
+          return true
+        elsif session[:first_click]
           raise FirstClickFree::Exceptions::SubsequentAccessException
         else
-          session[:first_click] = Time.zone.now
+          session[:first_click] = url_for
           return true
         end
+      end
+
+      private
+
+      # Private: Reset first click free session.
+      #
+      # Returns the value set in the first click session (nil)
+      def reset_first_click_free!
+        session.delete(:first_click)
       end
 
     end
