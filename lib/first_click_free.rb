@@ -8,12 +8,18 @@ module FirstClickFree
 
     require 'yaml'
 
+    attr_accessor :test_mode
+
     def root
       File.expand_path(File.join(File.dirname(__FILE__), '..'))
     end
 
     def permitted_domains
       @permitted_domains ||= YAML.load_file(File.join(FirstClickFree.root, 'config', 'domains.yml'))
+    end
+
+    def test_mode
+      @test_mode || false
     end
   end
 
