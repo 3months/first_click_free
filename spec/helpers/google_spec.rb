@@ -4,6 +4,22 @@ require "ostruct"
 describe FirstClickFree::Helpers::Google, type: :helper do
 
   describe "#googlebot?" do
+
+    context "test mode" do
+      before { FirstClickFree.test_mode = true }
+      subject { helper.googlebot?(false) }
+
+      context "correct parameter is set" do
+        before { helper.stub(params: {googlebot: true}) }
+        it { should be_true }
+      end
+
+      context "parameter is not set" do
+        before { helper.stub(params: {}) }
+        it { should be_false }
+      end
+    end
+
     context "not verifying DNS" do
       subject { helper.googlebot?(false) }
 

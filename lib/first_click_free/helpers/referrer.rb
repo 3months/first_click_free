@@ -16,6 +16,7 @@ module FirstClickFree
       # Returns true if the domain from the request referrer is permitted, or
       # false if it is not.
       def permitted_domain?
+        return true if FirstClickFree.test_mode && params.key?(:google_referrer)
         request.try(:referrer) && FirstClickFree.permitted_domains.any? do |domain|
           URI.parse(request.referrer).hostname =~ /#{domain}\Z/
         end
