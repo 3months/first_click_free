@@ -71,11 +71,12 @@ module FirstClickFree
 
         # Has this session already visited?
         if session[:first_click] && session[:first_click] == url_for
+          request.env["first_click_free.url"] = session[:first_click]
           return true
         elsif session[:first_click]
           raise FirstClickFree::Exceptions::SubsequentAccessException
         else
-          session[:first_click] = url_for
+          request.env["first_click_free.url"] = session[:first_click] = url_for
           return true
         end
       end
