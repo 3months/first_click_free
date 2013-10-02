@@ -23,11 +23,13 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
     context "first visit" do
       before { get :index, test: true }
       it { session[:first_click].should eq current_url }
+      it { request.env["first_click_free.url"].should eq current_url }
       it { response.should be_success }
     end
 
     context "subsequent visit to same page" do
       before { session[:first_click] = current_url }
+      it { get :index; request.env["first_click_free.url"].should eq current_url }
       it { expect { get :index }.not_to raise_error }
     end
 
