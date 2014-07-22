@@ -10,23 +10,26 @@ describe FirstClickFree::Helpers::Path, type: :helper do
       it { should be_false }
     end
 
-    context 'with mismatching permitted paths' do
-      before do
-        helper.stub(request: OpenStruct.new(path: '/a/path'))
-        FirstClickFree.permitted_paths = %w[ /another/path ]
+    describe 'with permitted paths' do
+      before { FirstClickFree.permitted_paths = %w[ /another/path ] }
+
+      context 'and mismatching path' do
+        before { helper.stub(request: OpenStruct.new(fullpath: '/a/path')) }
+
+        it { should be_false }
       end
 
-      it { should be_false }
-    end
+      context 'and matching path' do
+        before { helper.stub(request: OpenStruct.new(fullpath: 'http://www.example.com/another/path')) }
 
-    context 'with matching permitted paths' do
-      before do
-        helper.stub(request: OpenStruct.new(path: '/another/path'))
-        FirstClickFree.permitted_paths = %w[ /another/path ]
+        it { should be_true }
       end
 
-      it { should be_true }
-    end
+      context 'and matching path with params' do
+        before { helper.stub(request: OpenStruct.new(fullpath: 'https://www.example.com/another/path?a=1')) }
 
+        it { should be_true }
+      end
+    end
   end
 end

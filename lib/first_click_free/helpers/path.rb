@@ -15,7 +15,7 @@ module FirstClickFree
       # Returns true if the requested path is specifically permitted, or
       # false if it is not.
       def permitted_path?
-        FirstClickFree.permitted_paths.include?(URI.parse(request.path).path)
+        FirstClickFree.permitted_paths.include?(URI.parse(request.fullpath).path)
       end
     end
   end
