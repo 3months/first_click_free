@@ -22,8 +22,8 @@ Use
    end
    ```
    You may pass through `only`, or `except` to restrict which actions will have first click free turned on, or you can put this in your `ApplicationController` to turn on first click free for all controllers.
-3. You may also allow certain individual paths to be permitted by setting them in an initializer like so
-`FirstClickFree.permitted_paths = [ '/about', '/contact' ]`
+3. You may also permit certain individual paths to bypass first click free by setting them in an initializer like so
+`FirstClickFree.permitted_paths = [ '/about', '/contact' ]`. These paths do not set or reset the users' first click free status.
 4. Handle the exception that is raised when a user tries to visit more than one page without being signed in:
 	``` ruby
 	rescue_from FirstClickFree::Exceptions::SubsequentAccessException do
