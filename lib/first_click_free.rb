@@ -1,6 +1,7 @@
 module FirstClickFree
   require 'first_click_free/exceptions/subsequent_access_exception'
   require 'first_click_free/helpers/google'
+  require 'first_click_free/helpers/path'
   require 'first_click_free/helpers/referrer'
   require 'first_click_free/concerns/controller'
 
@@ -8,7 +9,7 @@ module FirstClickFree
 
     require 'yaml'
 
-    attr_accessor :test_mode
+    attr_accessor :test_mode, :permitted_paths
 
     def root
       File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -16,6 +17,10 @@ module FirstClickFree
 
     def permitted_domains
       @permitted_domains ||= YAML.load_file(File.join(FirstClickFree.root, 'config', 'domains.yml'))
+    end
+
+    def permitted_paths
+      @permitted_paths || []
     end
 
     def test_mode

@@ -7,9 +7,27 @@ describe FirstClickFree do
     it { subject.select { |domain| domain =~ /google|bing|yahoo/ }.length.should eq subject.length }
   end
 
+  describe "#permitted_paths" do
+    before do
+      described_class.permitted_paths = nil
+    end
+
+    it "should default to none" do
+      described_class.permitted_paths.should eq []
+    end
+
+    it "should be settable" do
+      expect { described_class.permitted_paths = ['/foo'] }.to change(described_class, :permitted_paths).to(['/foo'])
+    end
+  end
+
   describe "#test_mode" do
+    before do
+      described_class.test_mode = nil
+    end
+
     it "should default to false" do
-      described_class.test_mode = false
+      described_class.test_mode.should be_false
     end
 
     it "should be settable" do

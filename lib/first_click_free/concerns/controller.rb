@@ -5,6 +5,7 @@ module FirstClickFree
     module Controller
       extend ActiveSupport::Concern
       include FirstClickFree::Helpers::Google
+      include FirstClickFree::Helpers::Path
       include FirstClickFree::Helpers::Referrer
 
       module ClassMethods
@@ -64,6 +65,9 @@ module FirstClickFree
 
         # Always allow requests from authenticated users
         return true if user_for_first_click_free
+
+        # Always allow requests to particular paths
+        return true if permitted_path?
 
         # Reset first click free if the domain is permitted
         # (new first click free will be set)
