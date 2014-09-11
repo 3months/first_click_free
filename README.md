@@ -5,7 +5,7 @@ First Click Free
 
 [First Click Free](https://support.google.com/webmasters/answer/74536?hl=en) is one of three methods recommended officially by Google for improving search rankings for subscription, paywall and other restricted access sites.
 
-The technique involves making available the first 'click', or pageview for each user, and giving Google's crawling bots full access to index site content. This way, users coming from social media sites and search results are able to 'preview' the content they have been looking for, and search engines are able to fully index a site, even though it would normally require registration and/or payment.
+The technique involves making available the first n 'clicks', or pageviews for each user, and giving Google's crawling bots full access to index site content. This way, users coming from social media sites and search results are able to 'preview' the content they have been looking for, and search engines are able to fully index a site, even though it would normally require registration and/or payment.
 
 This gem aims to simplify and centralize the process of adding first click free support to a Rails application. It's fully tested, and used in production with many of our clients at [3months.com](https://3months.com).
 
@@ -30,7 +30,8 @@ Use
 	  redirect_to root_path, alert: 'Please sign in to continue.'
 	end
 	```
-5. Good to go!
+5. By default users will get just 1 free click, however by setting `FirstClickFree.free_clicks` in an initializer you can allow n free clicks to content.
+6. Good to go!
 
 #### Registered Users
 
