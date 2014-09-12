@@ -36,7 +36,7 @@ Optional use
 1. You may also permit certain individual paths to bypass first click free by setting them in an initializer like so
 `FirstClickFree.permitted_paths = [ '/about', '/contact' ]`. These paths do not set or reset the users' first click free status.
 2. By default users will get just 1 free click, however by setting `FirstClickFree.free_clicks` in an initializer you can allow n free clicks to content.
-3. Clicked free URLs are available in request.env["first_click_free.url"] as a comma-separated list.
+3. A count of users' free clicks are available in request.env["first_click_free_count"].
 
 #### Registered Users
 

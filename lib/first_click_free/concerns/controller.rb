@@ -73,18 +73,18 @@ module FirstClickFree
         # (new first click free will be set)
         reset_first_click_free! if permitted_domain?
 
-        # Has this session already visited?
         if session[:first_click] && session[:first_click].include?(checksum(url_for))
-          request.env["first_click_free.url"] = url_for
+          # already visited, can visit again
         elsif session[:first_click] && session[:first_click].length < FirstClickFree.free_clicks
+          # new page but within free click limit
           session[:first_click] << checksum(url_for)
-          request.env["first_click_free.url"] = "#{request.env["first_click_free.url"]},#{url_for}"
         elsif session[:first_click] && session[:first_click].length == FirstClickFree.free_clicks
           raise FirstClickFree::Exceptions::SubsequentAccessException
         else
+          # first click!
           session[:first_click] = [ checksum(url_for) ]
-          request.env["first_click_free.url"] = url_for
         end
+        request.env["first_click_free_count"] = session[:first_click].length
         return true
       end
 

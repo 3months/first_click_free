@@ -31,14 +31,14 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
       before { get :index, test: true }
 
       it { session[:first_click].should include checksum(current_url) }
-      it { request.env["first_click_free.url"].should include current_url }
+      it { request.env["first_click_free_count"].should eq 1 }
       it { response.should be_success }
     end
 
     context "subsequent visit to same page" do
       before { session[:first_click] = [ checksum(current_url) ] }
 
-      it { get :index; request.env["first_click_free.url"].should eq current_url }
+      it { get :index; request.env["first_click_free_count"].should eq 1 }
       it { expect { get :index }.not_to raise_error }
     end
 
@@ -52,11 +52,10 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
       before do
         session[:first_click] = [ checksum("http://test.host/some-page"),
                                   checksum("http://test.host/some-other-page") ]
-        request.env["first_click_free.url"] = "http://test.host/some-page,http://test.host/some-other-page"
         FirstClickFree.free_clicks = 3
       end
 
-      it { get :index; request.env["first_click_free.url"].should eq "http://test.host/some-page,http://test.host/some-other-page,http://test.host/first-click-free" }
+      it { get :index; request.env["first_click_free_count"].should eq 3 }
       it { expect { get :index }.not_to raise_error }
     end
 
@@ -65,7 +64,7 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
         session[:first_click] = [ checksum("http://test.host/some-page"),
                                   checksum("http://test.host/some-other-page"),
                                   checksum("http://test.host/yet-another-page") ]
-        FirstClickFree.free_clicks = session[:first_click].length
+        FirstClickFree.free_clicks = 3
       end
 
       it { expect { get :index }.to raise_error FirstClickFree::Exceptions::SubsequentAccessException }
