@@ -74,15 +74,18 @@ module FirstClickFree
         reset_first_click_free! if permitted_domain?
 
         # Has this session already visited?
-        if session[:first_click] && session[:first_click] == url_for
-          request.env["first_click_free.url"] = session[:first_click]
-          return true
-        elsif session[:first_click]
+        if session[:first_click] && session[:first_click].include?(checksum(url_for))
+          request.env["first_click_free.url"] = url_for
+        elsif session[:first_click] && session[:first_click].length < FirstClickFree.free_clicks
+          session[:first_click] << checksum(url_for)
+          request.env["first_click_free.url"] = "#{request.env["first_click_free.url"]},#{url_for}"
+        elsif session[:first_click] && session[:first_click].length == FirstClickFree.free_clicks
           raise FirstClickFree::Exceptions::SubsequentAccessException
         else
-          request.env["first_click_free.url"] = session[:first_click] = url_for
-          return true
+          session[:first_click] = [ checksum(url_for) ]
+          request.env["first_click_free.url"] = url_for
         end
+        return true
       end
 
       private
@@ -94,6 +97,12 @@ module FirstClickFree
         session.delete(:first_click)
       end
 
+      # Private: Create a checksum string.
+      #
+      # Returns a checksum of the url as a string
+      def checksum(url)
+        Zlib.adler32(url).to_s
+      end
     end
   end
 end
