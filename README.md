@@ -22,16 +22,21 @@ Use
    end
    ```
    You may pass through `only`, or `except` to restrict which actions will have first click free turned on, or you can put this in your `ApplicationController` to turn on first click free for all controllers.
-3. You may also permit certain individual paths to bypass first click free by setting them in an initializer like so
-`FirstClickFree.permitted_paths = [ '/about', '/contact' ]`. These paths do not set or reset the users' first click free status.
-4. Handle the exception that is raised when a user tries to visit more than one page without being signed in:
+3. Handle the exception that is raised when a user tries to visit more than one page without being signed in:
 	``` ruby
 	rescue_from FirstClickFree::Exceptions::SubsequentAccessException do
 	  redirect_to root_path, alert: 'Please sign in to continue.'
 	end
 	```
-5. By default users will get just 1 free click, however by setting `FirstClickFree.free_clicks` in an initializer you can allow n free clicks to content.
-6. Good to go!
+4. Good to go!
+
+Optional use
+---
+
+1. You may also permit certain individual paths to bypass first click free by setting them in an initializer like so
+`FirstClickFree.permitted_paths = [ '/about', '/contact' ]`. These paths do not set or reset the users' first click free status.
+2. By default users will get just 1 free click, however by setting `FirstClickFree.free_clicks` in an initializer you can allow n free clicks to content.
+3. Clicked free URLs are available in request.env["first_click_free.url"] as a comma-separated list.
 
 #### Registered Users
 
@@ -63,7 +68,7 @@ How it works
 
 ##### For visitors coming from a Google, Bing, or Yahoo search
 
-* When a user's HTTP referrer matches a list of known search engine domains, the request is allowed to override any previously set first click free. 
+* When a user's HTTP referrer matches a list of known search engine domains, the request is allowed to override any previously set first click free.
 * It does not disable first click free, it just modifies which page that user may access.
 * For example, if a user searches for a page on your site using Google, and clicks on the first result, that page will be marked as first click free for them - any subsequent clicks from that page will trigger the first click free error. If they go back to the search results though, and then click on the second result, that page will take the place of the first and they will be able to access that page as normal.
 
