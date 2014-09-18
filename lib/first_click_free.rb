@@ -9,7 +9,7 @@ module FirstClickFree
 
     require 'yaml'
 
-    attr_accessor :test_mode, :permitted_paths
+    attr_accessor :test_mode, :permitted_paths, :free_clicks
 
     def root
       File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -21,6 +21,10 @@ module FirstClickFree
 
     def permitted_paths
       @permitted_paths || []
+    end
+
+    def free_clicks
+      @free_clicks || 1 # default is 1 click free
     end
 
     def test_mode

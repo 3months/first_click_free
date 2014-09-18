@@ -5,7 +5,7 @@ First Click Free
 
 [First Click Free](https://support.google.com/webmasters/answer/74536?hl=en) is one of three methods recommended officially by Google for improving search rankings for subscription, paywall and other restricted access sites.
 
-The technique involves making available the first 'click', or pageview for each user, and giving Google's crawling bots full access to index site content. This way, users coming from social media sites and search results are able to 'preview' the content they have been looking for, and search engines are able to fully index a site, even though it would normally require registration and/or payment.
+The technique involves making available the first n 'clicks', or pageviews for each user, and giving Google's crawling bots full access to index site content. This way, users coming from social media sites and search results are able to 'preview' the content they have been looking for, and search engines are able to fully index a site, even though it would normally require registration and/or payment.
 
 This gem aims to simplify and centralize the process of adding first click free support to a Rails application. It's fully tested, and used in production with many of our clients at [3months.com](https://3months.com).
 
@@ -22,15 +22,21 @@ Use
    end
    ```
    You may pass through `only`, or `except` to restrict which actions will have first click free turned on, or you can put this in your `ApplicationController` to turn on first click free for all controllers.
-3. You may also permit certain individual paths to bypass first click free by setting them in an initializer like so
-`FirstClickFree.permitted_paths = [ '/about', '/contact' ]`. These paths do not set or reset the users' first click free status.
-4. Handle the exception that is raised when a user tries to visit more than one page without being signed in:
+3. Handle the exception that is raised when a user tries to visit more than one page without being signed in:
 	``` ruby
 	rescue_from FirstClickFree::Exceptions::SubsequentAccessException do
 	  redirect_to root_path, alert: 'Please sign in to continue.'
 	end
 	```
-5. Good to go!
+4. Good to go!
+
+Optional use
+---
+
+1. You may also permit certain individual paths to bypass first click free by setting them in an initializer like so
+`FirstClickFree.permitted_paths = [ '/about', '/contact' ]`. These paths do not set or reset the users' first click free status.
+2. By default users will get just 1 free click, however by setting `FirstClickFree.free_clicks` in an initializer you can allow n free clicks to content.
+3. A count of users' free clicks are available in request.env["first_click_free_count"].
 
 #### Registered Users
 
@@ -62,7 +68,7 @@ How it works
 
 ##### For visitors coming from a Google, Bing, or Yahoo search
 
-* When a user's HTTP referrer matches a list of known search engine domains, the request is allowed to override any previously set first click free. 
+* When a user's HTTP referrer matches a list of known search engine domains, the request is allowed to override any previously set first click free.
 * It does not disable first click free, it just modifies which page that user may access.
 * For example, if a user searches for a page on your site using Google, and clicks on the first result, that page will be marked as first click free for them - any subsequent clicks from that page will trigger the first click free error. If they go back to the search results though, and then click on the second result, that page will take the place of the first and they will be able to access that page as normal.
 
