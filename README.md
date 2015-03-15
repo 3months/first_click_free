@@ -1,7 +1,7 @@
 First Click Free
 ===
 
-[![Build Status](https://magnum.travis-ci.com/3months/first_click_free.svg?token=DvGxmf7uFPzzFm4PyNBV&branch=master)](https://magnum.travis-ci.com/3months/first_click_free)
+[![Build Status](https://travis-ci.org/3months/first_click_free.svg)](https://travis-ci.org/3months/first_click_free)
 
 [First Click Free](https://support.google.com/webmasters/answer/74536?hl=en) is one of three methods recommended officially by Google for improving search rankings for subscription, paywall and other restricted access sites.
 
