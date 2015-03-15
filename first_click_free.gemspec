@@ -7,9 +7,9 @@ require "first_click_free/version"
 Gem::Specification.new do |s|
   s.name        = "first_click_free"
   s.version     = FirstClickFree::VERSION
-  s.authors     = ["Josh McArthur"]
-  s.email       = ["joshua.mcarthur@gmail.com"]
-  s.homepage    = "https://github.com/joshmcarthur/first_click_free"
+  s.authors     = ["3months"]
+  s.email       = ["support@3months.com"]
+  s.homepage    = "https://github.com/3months/first_click_free"
   s.summary     = "Automatically support first-click-free access to your content."
   s.description = "Automatically allow Google-crawling and new visitors to your application
                    access to content without requiring sign-in."
