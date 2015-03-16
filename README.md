@@ -7,7 +7,7 @@ First Click Free
 
 The technique involves making available the first n 'clicks', or pageviews for each user, and giving Google's crawling bots full access to index site content. This way, users coming from social media sites and search results are able to 'preview' the content they have been looking for, and search engines are able to fully index a site, even though it would normally require registration and/or payment.
 
-This gem aims to simplify and centralize the process of adding first click free support to a Rails application. It's fully tested, and used in production with many of our clients at [3months.com](https://3months.com).
+This gem aims to simplify and centralize the process of adding first click free support to a Rails application. It's fully tested, and used in production by our clients at [3months.com](https://3months.com).
 
 Use
 ---
@@ -15,19 +15,21 @@ Use
 **Rails is required to use this gem**
 
 1. Install: Add `gem 'first_click_free'` to your `Gemfile` and run `bundle install`
-2. For any controller that should have first click free activated, simply call `allow_first_click_free` in your controller definition, for example:
-   ``` ruby
-   class PagesController
-     allow_first_click_free
-   end
-   ```
+2. For any controller that should have first click free activated, call `allow_first_click_free` in your controller definition, for example:
+
+  ``` ruby
+  class PagesController
+    allow_first_click_free
+  end
+  ```
    You may pass through `only`, or `except` to restrict which actions will have first click free turned on, or you can put this in your `ApplicationController` to turn on first click free for all controllers.
 3. Handle the exception that is raised when a user tries to visit more than one page without being signed in:
-	``` ruby
-	rescue_from FirstClickFree::Exceptions::SubsequentAccessException do
-	  redirect_to root_path, alert: 'Please sign in to continue.'
-	end
-	```
+
+  ``` ruby
+  rescue_from FirstClickFree::Exceptions::SubsequentAccessException do
+    redirect_to root_path, alert: 'Please sign in to continue.'
+  end
+  ```
 4. Good to go!
 
 Optional use
@@ -48,7 +50,7 @@ Example:
   class ApplicationController
     # …snip
 
-    protected
+  protected
 
     def user_for_first_click_free
       current_member
@@ -86,9 +88,7 @@ Contributing
 * Contributions are welcome!
 * Please fork this repository, and run `bundle install` to install the development dependencies (RSpec and SQLite).
 * Create a new git branch to contain your changes. Try and limit commits to this branch to the specific changes you want to be merged in.
-* Push up your branch to Github, and create a pull request. Please don't change the gem version or anything, I can do that bit.
-* All pull requests will be reviewed ASAP. If it's not ready for merge, I'll help you to get it to a stage where it is!
-
+* Push up your branch to Github, and create a pull request. Please don't change the gem version or anything, we will do that bit.
 
 
 License
