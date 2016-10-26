@@ -40,6 +40,8 @@ Optional use
 2. By default users will get just 1 free click, however by setting `FirstClickFree.free_clicks` in an initializer you can allow n free clicks to content.
 3. A count of users' free clicks are available in request.env["first_click_free_count"].
 
+4. throw excaption option. `FirstClickFree.raise_excaption` in an initializer.
+
 #### Registered Users
 
 If you have registered users that should always be allowed through (they shouldn't be affected by any first click free rules), then you can override the `user_for_first_click_free` method in `ApplicationController`, or any of your controllers using `allow_first_click_free`. This method should return either a falsy value if no-one is signed in, or the current user.

@@ -50,6 +50,10 @@ module FirstClickFree
         nil
       end
 
+      # allow or deny the request for content access.
+      def allow_first_click_free?
+        @first_click_free
+      end
 
       # Public: Either record a first click free request, or reject
       # the request for a subsequent content access.
@@ -60,6 +64,8 @@ module FirstClickFree
       # Returns true if the referrer User agent is GoogleBot, or
       # if this is the first click recorded for this session.
       def record_or_reject_first_click_free!
+        @first_click_free = true
+
         # Always allow requests from Googlebot
         return true if googlebot?
 
@@ -86,6 +92,9 @@ module FirstClickFree
         end
         request.env["first_click_free_count"] = session[:first_click].length
         return true
+      rescue FirstClickFree::Exceptions::SubsequentAccessException => e
+        @first_click_free = false
+        raise FirstClickFree::Exceptions::SubsequentAccessException if FirstClickFree.raise_excaption?
       end
 
       private
