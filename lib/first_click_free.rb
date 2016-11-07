@@ -9,7 +9,7 @@ module FirstClickFree
 
     require 'yaml'
 
-    attr_accessor :test_mode, :permitted_paths, :free_clicks
+    attr_accessor :test_mode, :permitted_paths, :free_clicks, :crawler_bot_strict_if
 
     def root
       File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -29,6 +29,10 @@ module FirstClickFree
 
     def test_mode
       @test_mode || false
+    end
+
+    def crawler_bot_strict_if
+      @crawler_bot_strict_if || false
     end
   end
 

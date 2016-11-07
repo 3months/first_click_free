@@ -61,7 +61,7 @@ module FirstClickFree
       # if this is the first click recorded for this session.
       def record_or_reject_first_click_free!
         # Always allow requests from Googlebot
-        return true if googlebot?
+        return true if googlebot? FirstClickFree.crawler_bot_strict_if
 
         # Always allow requests from authenticated users
         return true if user_for_first_click_free
