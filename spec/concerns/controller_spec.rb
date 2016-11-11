@@ -43,8 +43,11 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
     end
 
     context "subsequent visit to different page" do
-      before { session[:first_click] = [ checksum("http://test.host/another-page") ] }
+      before do
+        session[:first_click] = [ checksum("http://test.host/another-page") ]
+      end
 
+      FirstClickFree.raise_exception = true
       it { expect { get :index }.to raise_error FirstClickFree::Exceptions::SubsequentAccessException }
     end
 
@@ -55,6 +58,7 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
         FirstClickFree.free_clicks = 3
       end
 
+      FirstClickFree.raise_exception = true
       it { get :index; request.env["first_click_free_count"].should eq 3 }
       it { expect { get :index }.not_to raise_error }
     end
@@ -67,6 +71,7 @@ describe FirstClickFree::Concerns::Controller, type: :controller do
         FirstClickFree.free_clicks = 3
       end
 
+      FirstClickFree.raise_exception = true
       it { expect { get :index }.to raise_error FirstClickFree::Exceptions::SubsequentAccessException }
     end
 
