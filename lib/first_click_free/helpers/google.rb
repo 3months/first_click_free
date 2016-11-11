@@ -15,8 +15,9 @@ module FirstClickFree
       #
       # Returns true if a Googlebot has been identified, false if not.
       def googlebot?(use_dns_lookup = true)
+        user_agent = request.user_agent || ""
         (FirstClickFree.test_mode && params.key?(:googlebot)) ||\
-        (request.user_agent == "Googlebot" && (use_dns_lookup ? verify_googlebot_domain : true))
+        (user_agent.include?("Googlebot") && (use_dns_lookup ? verify_googlebot_domain : true))
       end
 
       private
