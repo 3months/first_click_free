@@ -4,6 +4,7 @@ module FirstClickFree
   require 'first_click_free/helpers/path'
   require 'first_click_free/helpers/referrer'
   require 'first_click_free/concerns/controller'
+  require 'first_click_free/sessions/first_click_free_session'
 
   class << self
 
